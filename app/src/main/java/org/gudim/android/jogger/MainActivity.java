@@ -1,5 +1,7 @@
 package org.gudim.android.jogger;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,10 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    protected Intent myServiceIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,5 +66,21 @@ public class MainActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+    }
+
+    public void StartService(View v)
+    {
+        Toast.makeText(v.getContext(), "Service started", Toast.LENGTH_SHORT).show();
+        if(myServiceIntent != null) {
+            myServiceIntent = new Intent(v.getContext(), GeoIntentService.class);
+                    v.getContext().startActivity(myServiceIntent);
+        }
+    }
+
+    public void StopService(View v)
+    {
+        Toast.makeText(v.getContext(), "Service stopped", Toast.LENGTH_SHORT).show();
+        if(myServiceIntent != null)
+            myServiceIntent = new Intent(v.getContext(), GeoIntentService.class);
     }
 }
