@@ -1,32 +1,40 @@
 package org.gudim.android.jogger;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.http.protocol.HTTP;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    protected Intent myServiceIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+
+        //custom
+        ArrayList<Session> sessions = new ArrayList<Session>();
+
+
+        final ListView listView = (ListView) findViewById(R.id.ListViewSessions);
+
+
+
     }
 
 
@@ -52,35 +60,21 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-    }
-
-    public void StartService(View v)
+    /*public void SendMessage(View v)
     {
-        Toast.makeText(v.getContext(), "Service started", Toast.LENGTH_SHORT).show();
-        if(myServiceIntent != null) {
-            myServiceIntent = new Intent(v.getContext(), GeoIntentService.class);
-                    v.getContext().startActivity(myServiceIntent);
-        }
-    }
+        EditText editText = (EditText) findViewById(R.id.EditTextMessage);
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_DIAL);
+        sendIntent.setData(Uri.parse("tel:"+ editText.getText()));
 
-    public void StopService(View v)
+// Verify that the intent will resolve to an activity
+        if (sendIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(sendIntent);
+        }
+    }*/
+
+    public void onItemClick(View v)
     {
-        Toast.makeText(v.getContext(), "Service stopped", Toast.LENGTH_SHORT).show();
-        if(myServiceIntent != null)
-            myServiceIntent = new Intent(v.getContext(), GeoIntentService.class);
+
     }
 }

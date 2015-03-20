@@ -1,0 +1,42 @@
+package org.gudim.android.jogger;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+/**
+ * Created by hansg_000 on 20.03.2015.
+ */
+public class SessionsAdapter extends ArrayAdapter<Session> {
+    public SessionsAdapter(Context context, ArrayList<Session> sessions) {
+        super(context, 0, sessions);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Session session = getItem(position);
+        if(convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_session, parent, false);
+        }
+        TextView textViewDate = (TextView) convertView.findViewById(R.id.sessionDate);
+        TextView textViewTitle = (TextView) convertView.findViewById(R.id.sessionTitle);
+        TextView textViewLength = (TextView) convertView.findViewById(R.id.sessionLength);
+        TextView textViewDuration = (TextView) convertView.findViewById(R.id.sessionDuration);
+
+        textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(session.date));
+        textViewTitle.setText(session.title);
+        textViewLength.setText(String.format("Lengde: " + session.length + "km"));
+        textViewDuration.setText(String.format("Varighet: " + session.duration + "minutter"));
+        
+        return convertView;
+    }
+}
