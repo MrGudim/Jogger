@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView textViewTitle = (TextView) view.findViewById(R.id.sessionTitle);
+                TextView textViewTitle = (TextView) view.findViewById(R.id.sessionTitle);
                 Toast.makeText(getApplicationContext(), "You clicked:  " + textViewTitle.getText(), Toast.LENGTH_SHORT).show();
             }
         });
