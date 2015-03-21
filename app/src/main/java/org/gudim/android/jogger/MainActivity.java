@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import org.apache.http.protocol.HTTP;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -29,11 +31,27 @@ public class MainActivity extends ActionBarActivity {
 
         //custom
         ArrayList<Session> sessions = new ArrayList<Session>();
-
+        try {
+            sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, new URL("http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg")));
+            sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, new URL("http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg")));
+            sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, new URL("http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg")));
+            sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, new URL("http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg")));
+        }
+        catch(Exception ex)
+        {
+            Toast.makeText(getApplicationContext(), "Error: Malformed image URLS", Toast.LENGTH_SHORT).show();
+        }
+        SessionsAdapter sessionsAdapter = new SessionsAdapter(this,sessions);
 
         final ListView listView = (ListView) findViewById(R.id.ListViewSessions);
-
-
+        listView.setAdapter(sessionsAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    TextView textViewTitle = (TextView) view.findViewById(R.id.sessionTitle);
+                Toast.makeText(getApplicationContext(), "You clicked:  " + textViewTitle.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -58,23 +76,5 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /*public void SendMessage(View v)
-    {
-        EditText editText = (EditText) findViewById(R.id.EditTextMessage);
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_DIAL);
-        sendIntent.setData(Uri.parse("tel:"+ editText.getText()));
-
-// Verify that the intent will resolve to an activity
-        if (sendIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(sendIntent);
-        }
-    }*/
-
-    public void onItemClick(View v)
-    {
-
     }
 }
