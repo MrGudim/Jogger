@@ -50,42 +50,9 @@ public class SessionsAdapter extends ArrayAdapter<Session> {
         textViewLength.setText(String.format("Lengde: " + session.length + "km"));
         textViewDuration.setText(String.format("Varighet: " + session.duration + "minutter"));
 
-        new DownloadImageTask(imageViewImage).execute(session.imageUrl.toString());
-        /*try {
-            InputStream stream = session.imageUrl.openStream();
-            Bitmap bitmap = BitmapFactory.decodeStream(stream);
-            imageViewImage.setImageBitmap(bitmap);
-            stream.close();
-        } catch (Exception ex) {
-            Toast.makeText(getContext(), "Error: Could not load bitmap from URL for item: " + session.title + ". Errormsg: " + ex.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }*/
-
         return convertView;
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception ex) {
-                Toast.makeText(getContext(), "Error: Could not load bitmap from URL.  Errormsg: " + ex.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 }
 
 
