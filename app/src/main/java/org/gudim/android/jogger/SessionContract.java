@@ -19,6 +19,6 @@ public final class SessionContract {
         public static final String COLUMN_NAME_DATE = "sessiondate";
         public static final String COLUMN_NAME_LENGTH = "sessionlength";
         public static final String COLUMN_NAME_DURATION = "sessionduration";
-        public static final String COLUMN_NAME_IMAGE = "sessionimmage";
+        public static final String COLUMN_NAME_IMAGEURL = "sessionimmage";
     }
 }

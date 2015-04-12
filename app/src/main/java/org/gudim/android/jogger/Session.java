@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by hansg_000 on 20.03.2015.
  */
 public class Session {
-    public Session(Date date, String title, double length, double duration, URL imageUrl)
+    public Session(Date date, String title, double length, double duration, String imageUrl)
     {
         this.date = date;
         this.title = title;
@@ -22,5 +22,5 @@ public class Session {
     public String title;
     public double length;
     public double duration;
-    public URL imageUrl;
+    public String imageUrl;
 }
