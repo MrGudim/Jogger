@@ -102,6 +102,7 @@ public class DbHandler {
             cursor.moveToFirst();
 
             while(!cursor.isAfterLast()){
+                Integer length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
                 Date date = dateFormat.parse(cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DATE)));
                 String title = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_TITLE));
                 double length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
