@@ -32,10 +32,10 @@ public class MainActivity extends ActionBarActivity {
         //custom
         ArrayList<Session> sessions = new ArrayList<Session>();
         try {
-            sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, new URL("http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg")));
-            sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, new URL("http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg")));
-            sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, new URL("http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg")));
-            sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, new URL("http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg")));
+            sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, "http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg"));
+            sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, "http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg"));
+            sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, "http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg"));
+            sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, "http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg"));
         }
         catch(Exception ex)
         {
