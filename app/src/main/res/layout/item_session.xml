@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <TextView android:id="@+id/sessionTitle"
+        android:textAllCaps="true"
+        android:textSize="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView android:id="@+id/sessionDate"
+        android:layout_below="@+id/sessionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView android:id="@+id/sessionLength"
+        android:layout_below="@+id/sessionDate"
+        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView android:id="@+id/sessionDuration"
+        android:layout_below="@+id/sessionDate"
+        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-</LinearLayout>
+</RelativeLayout>

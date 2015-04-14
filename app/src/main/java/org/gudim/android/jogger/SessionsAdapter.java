@@ -44,10 +44,10 @@ public class SessionsAdapter extends ArrayAdapter<Session> {
         TextView textViewLength = (TextView) convertView.findViewById(R.id.sessionLength);
         TextView textViewDuration = (TextView) convertView.findViewById(R.id.sessionDuration);
 
-        textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(session.date));
+        textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(session.date));
         textViewTitle.setText(session.title);
-        textViewLength.setText(String.format("Lengde: " + session.length + "km"));
-        textViewDuration.setText(String.format("Varighet: " + session.duration + "minutter"));
+        textViewLength.setText(String.format("Lengde: " + String.format("%.1f",session.length) + " km"));
+        textViewDuration.setText(String.format("Varighet: " + String.format("%.0f",session.duration) + " minutter"));
 
         return convertView;
     }
