@@ -22,7 +22,7 @@ public class DbHandler {
 
     public DbHandler(Context context) {
         dbHelper = new DbHelper(context);
-        dateFormat = new SimpleDateFormat("dd//MM/yyyy");
+        dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     }
 
     public void closeDbHelper() {
@@ -40,15 +40,15 @@ public class DbHandler {
                     + SessionContract.SessionEntry.COLUMN_NAME_LENGTH + ", "
                     + SessionContract.SessionEntry.COLUMN_NAME_TITLE
                     + ") VALUES ("
-                    + session.imageUrl
+                    + "'" + session.imageUrl + "'"
                     + ","
-                    + dateFormat.format(session.date)
+                    + "'" + dateFormat.format(session.date) + "'"
                     + ","
                     + session.duration
                     + ","
                     + session.length
                     + ","
-                    + session.title
+                    + "'" + session.title + "'"
                     + ")";
             db.execSQL(query);
         } catch (SQLiteException ex) {
@@ -111,7 +111,6 @@ public class DbHandler {
                 double length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
                 double duration = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DURATION));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_IMAGEURL));
-
                 session = new Session(date, title, length, duration, imageUrl);
                 session.id = sessionId;
             }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +18,11 @@ import android.widget.Toast;
 
 import org.apache.http.protocol.HTTP;
 
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -30,18 +33,29 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         //custom
-        ArrayList<Session> sessions = new ArrayList<Session>();
         try {
-            sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, "http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg"));
-            sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, "http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg"));
-            sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, "http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg"));
-            sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, "http://cdn.superbwallpapers.com/wallpapers/animals/kitten-16219-400x250.jpg"));
+            DbHandler dbHandler = new DbHandler(getApplicationContext());
+            if (dbHandler.getSessions().isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Starting adding example sessions since the DB is empty", Toast.LENGTH_LONG).show();
+
+                ArrayList<Session> sessions = new ArrayList<Session>();
+
+                sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, "image.jpg"));
+                sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, "image2.jpg"));
+                sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, "image3.jpg"));
+                sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, "image4.jpg"));
+                for (Session session : sessions) {
+                    dbHandler.insertSession(session);
+                }
+            }
+
+        } catch (Exception ex) {
+            Log.e("Error: Exampledata", "Error while inserting/getting example data");
         }
-        catch(Exception ex)
-        {
-            Toast.makeText(getApplicationContext(), "Error: Malformed image URLS", Toast.LENGTH_SHORT).show();
-        }
-        SessionsAdapter sessionsAdapter = new SessionsAdapter(this,sessions);
+        List<Session> sessionList = new DbHandler(getApplicationContext()).getSessions();
+        ArrayList<Session> sessions = new ArrayList<Session>();
+        sessions.addAll(sessionList);
+        SessionsAdapter sessionsAdapter = new SessionsAdapter(this, sessions);
 
         final ListView listView = (ListView) findViewById(R.id.ListViewSessions);
         listView.setAdapter(sessionsAdapter);
