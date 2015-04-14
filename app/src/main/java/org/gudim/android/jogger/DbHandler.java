@@ -72,20 +72,23 @@ public class DbHandler {
             Cursor cursor = db.rawQuery(query, null);
             cursor.moveToFirst();
 
-            while(!cursor.isAfterLast()){
+            while (!cursor.isAfterLast()) {
+                Integer sessionId = cursor.getInt(cursor.getColumnIndex(SessionContract.SessionEntry._ID));
                 Date date = dateFormat.parse(cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DATE)));
                 String title = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_TITLE));
                 double length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
                 double duration = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DURATION));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_IMAGEURL));
 
-                sessions.add(new Session(date, title, length, duration, imageUrl));
+                Session session = new Session(date, title, length, duration, imageUrl);
+                session.id = sessionId;
+
+                sessions.add(session);
                 cursor.moveToNext();
             }
         } catch (SQLiteException ex) {
             Log.e("Session get failed.", "Reading from the database failed.");
-        }
-        catch(ParseException ex) {
+        } catch (ParseException ex) {
             Log.e("Session get failed.", "Could not parse date.");
         }
         return sessions;
@@ -101,24 +104,23 @@ public class DbHandler {
             Cursor cursor = db.rawQuery(query, null);
             cursor.moveToFirst();
 
-            while(!cursor.isAfterLast()){
-                Integer length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
+            if (cursor != null && cursor.moveToFirst()) {
+                Integer sessionId = cursor.getInt(cursor.getColumnIndex(SessionContract.SessionEntry._ID));
                 Date date = dateFormat.parse(cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DATE)));
                 String title = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_TITLE));
                 double length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
                 double duration = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DURATION));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_IMAGEURL));
 
-                sessions.add(new Session(date, title, length, duration, imageUrl));
-                cursor.moveToNext();
+                session = new Session(date, title, length, duration, imageUrl);
+                session.id = sessionId;
             }
         } catch (SQLiteException ex) {
             Log.e("Session get failed.", "Reading from the database failed.");
-        }
-        catch(ParseException ex) {
+        } catch (ParseException ex) {
             Log.e("Session get failed.", "Could not parse date.");
         }
-        return sessions;
+        return session;
     }
 
 }

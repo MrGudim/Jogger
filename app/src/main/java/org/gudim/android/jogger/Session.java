@@ -23,4 +23,5 @@ public class Session {
     public double length;
     public double duration;
     public String imageUrl;
+    public int id;
 }

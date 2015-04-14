@@ -43,7 +43,6 @@ public class SessionsAdapter extends ArrayAdapter<Session> {
         TextView textViewTitle = (TextView) convertView.findViewById(R.id.sessionTitle);
         TextView textViewLength = (TextView) convertView.findViewById(R.id.sessionLength);
         TextView textViewDuration = (TextView) convertView.findViewById(R.id.sessionDuration);
-        ImageView imageViewImage = (ImageView) convertView.findViewById(R.id.sessionImage);
 
         textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(session.date));
         textViewTitle.setText(session.title);
