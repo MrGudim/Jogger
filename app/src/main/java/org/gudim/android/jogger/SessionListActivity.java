@@ -1,94 +1,81 @@
 package org.gudim.android.jogger;
 
-import android.app.ListActivity;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.http.protocol.HTTP;
-
-import java.lang.reflect.Array;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import android.support.v4.app.FragmentActivity;
 
 
-public class SessionListActivity extends ActionBarActivity {
+/**
+ * An activity representing a list of Sessions. This activity
+ * has different presentations for handset and tablet-size devices. On
+ * handsets, the activity presents a list of items, which when touched,
+ * lead to a {@link SessionDetailActivity} representing
+ * item details. On tablets, the activity presents the list of items and
+ * item details side-by-side using two vertical panes.
+ * <p/>
+ * The activity makes heavy use of fragments. The list of items is a
+ * {@link SessionListFragment} and the item details
+ * (if present) is a {@link SessionDetailFragment}.
+ * <p/>
+ * This activity also implements the required
+ * {@link SessionListFragment.Callbacks} interface
+ * to listen for item selections.
+ */
+public class SessionListActivity extends FragmentActivity
+        implements SessionListFragment.Callbacks {
+
+    /**
+     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
+     * device.
+     */
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_session_list);
 
-        //custom
-        try {
-            DbHandler dbHandler = new DbHandler(getApplicationContext());
-            if (dbHandler.getSessions().isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Starting adding example sessions since the DB is empty", Toast.LENGTH_LONG).show();
+        if (findViewById(R.id.session_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-large and
+            // res/values-sw600dp). If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
 
-                ArrayList<Session> sessions = new ArrayList<Session>();
-
-                sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, "image.jpg"));
-                sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, "image2.jpg"));
-                sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, "image3.jpg"));
-                sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, "image4.jpg"));
-                for (Session session : sessions) {
-                    dbHandler.insertSession(session);
-                }
-            }
-
-        } catch (Exception ex) {
-            Log.e("Error: Exampledata", "Error while inserting/getting example data");
-        }
-        List<Session> sessionList = new DbHandler(getApplicationContext()).getSessions();
-        ArrayList<Session> sessions = new ArrayList<Session>();
-        sessions.addAll(sessionList);
-        SessionsAdapter sessionsAdapter = new SessionsAdapter(this, sessions);
-
-        final ListView listView = (ListView) findViewById(R.id.ListViewSessions);
-        listView.setAdapter(sessionsAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textViewTitle = (TextView) view.findViewById(R.id.sessionTitle);
-                Toast.makeText(getApplicationContext(), "You clicked:  " + textViewTitle.getText(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            // In two-pane mode, list items should be given the
+            // 'activated' state when touched.
+            ((SessionListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.session_list))
+                    .setActivateOnItemClick(true);
         }
 
-        return super.onOptionsItemSelected(item);
+        // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    /**
+     * Callback method from {@link SessionListFragment.Callbacks}
+     * indicating that the item with the given ID was selected.
+     */
+    @Override
+    public void onItemSelected(String id) {
+        if (mTwoPane) {
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle arguments = new Bundle();
+            arguments.putString(SessionDetailFragment.ARG_ITEM_ID, id);
+            SessionDetailFragment fragment = new SessionDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.session_detail_container, fragment)
+                    .commit();
+
+        } else {
+            // In single-pane mode, simply start the detail activity
+            // for the selected item ID.
+            Intent detailIntent = new Intent(this, SessionDetailActivity.class);
+            detailIntent.putExtra(SessionDetailFragment.ARG_ITEM_ID, id);
+            startActivity(detailIntent);
+        }
     }
 }
