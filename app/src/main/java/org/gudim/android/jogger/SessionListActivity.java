@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class SessionListActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
