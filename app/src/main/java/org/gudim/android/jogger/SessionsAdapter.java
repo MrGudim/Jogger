@@ -46,8 +46,8 @@ public class SessionsAdapter extends ArrayAdapter<Session> {
 
         textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(session.date));
         textViewTitle.setText(session.title);
-        textViewLength.setText(String.format("Length: " + String.format("%.1f",session.length) + " km"));
-        textViewDuration.setText(String.format("Duration: " + String.format("%.0f",session.duration) + " minutes"));
+        textViewLength.setText(String.format("Length: " + String.format("%.1f", session.length) + " km"));
+        textViewDuration.setText(String.format("Duration: " + String.format("%.0f", session.duration) + " minutes"));
 
         return convertView;
     }

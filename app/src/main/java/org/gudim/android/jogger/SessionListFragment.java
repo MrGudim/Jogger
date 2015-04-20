@@ -10,7 +10,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-import org.gudim.android.jogger.dummy.DummyContent;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,8 +83,7 @@ public class SessionListFragment extends ListFragment {
                 android.R.id.text1,
                 DummyContent.ITEMS));*/
 
-        try
-        {
+        try {
             DbHandler dbHandler = new DbHandler(getActivity());
             if (dbHandler.getSessions().isEmpty()) {
                 Toast.makeText(getActivity(), "Starting adding example sessions since the DB is empty", Toast.LENGTH_LONG).show();
@@ -105,10 +103,8 @@ public class SessionListFragment extends ListFragment {
             ArrayList<Session> sessions = new ArrayList<Session>();
             sessions.addAll(sessionList);
 
-            setListAdapter(new SessionsAdapter(getActivity(),sessions));
-        }
-        catch(Exception ex)
-        {
+            setListAdapter(new SessionsAdapter(getActivity(), sessions));
+        } catch (Exception ex) {
             Log.e("Error: Exampledata", "Error while inserting/getting example data");
         }
 
@@ -151,14 +147,12 @@ public class SessionListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-         try {
-             DbHandler dbHandler = new DbHandler(getActivity());
-             Session session = (Session)listView.getAdapter().getItem(position);
+        try {
+            DbHandler dbHandler = new DbHandler(getActivity());
+            Session session = (Session) listView.getAdapter().getItem(position);
 
-mCallbacks.onItemSelected(session.id);
-         }
-        catch(Exception ex)
-        {
+            mCallbacks.onItemSelected(session.id);
+        } catch (Exception ex) {
             Log.e("Error: onListItemClick", "Error while calling callback onItemSelected");
         }
 

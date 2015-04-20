@@ -1,26 +1,34 @@
-<LinearLayout
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/sessionDetailTitle"
-    style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
-    android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-    tools:context="org.gudim.android.jogger.SessionDetailFragment" />
-<TextView android:id="@+id/sessionDetailDate"
-android:layout_below="@+id/sessionTitle"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content" />
+    android:layout_height="match_parent">
 
-<TextView android:id="@+id/sessionDetailLength"
-android:layout_below="@+id/sessionDate"
-android:layout_alignParentLeft="true"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content" />
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/sessionDetailTitle"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context="org.gudim.android.jogger.SessionDetailFragment" />
 
-<TextView android:id="@+id/sessionDetailDuration"
-android:layout_below="@+id/sessionDate"
-android:layout_alignParentRight="true"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/sessionDetailDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sessionTitle" />
+
+    <TextView
+        android:id="@+id/sessionDetailLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/sessionDate" />
+
+    <TextView
+        android:id="@+id/sessionDetailDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/sessionDate" />
 </LinearLayout>
