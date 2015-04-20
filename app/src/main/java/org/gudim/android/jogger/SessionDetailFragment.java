@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 
 import org.gudim.android.jogger.dummy.DummyContent;
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 
 /**
  * A fragment representing a single Session detail screen.
@@ -63,9 +66,16 @@ public class SessionDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (selectedSession != null) {
-            //((TextView) rootView.findViewById(R.id.session_detail)).setText(selectedSession.title);
-            TextView sessionTitle = (TextView) rootView.findViewById(R.id.sessionDetailTitle);
-            sessionTitle.setText(selectedSession.title);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            TextView textViewTitle = (TextView) rootView.findViewById(R.id.sessionDetailTitle);
+            TextView textViewDate = (TextView) rootView.findViewById(R.id.sessionDetailDate);
+            TextView textViewLength = (TextView) rootView.findViewById(R.id.sessionDetailLength);
+            TextView textViewDuration = (TextView) rootView.findViewById(R.id.sessionDetailDuration);
+
+            textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(selectedSession.date));
+            textViewTitle.setText(selectedSession.title);
+            textViewLength.setText(String.format("Length: " + String.format("%.1f",selectedSession.length) + " km"));
+            textViewDuration.setText(String.format("Duration: " + String.format("%.0f",selectedSession.duration) + " minutes"));
         }
 
         return rootView;
