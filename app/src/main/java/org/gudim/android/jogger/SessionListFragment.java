@@ -3,12 +3,18 @@ package org.gudim.android.jogger;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import org.gudim.android.jogger.dummy.DummyContent;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A list fragment representing a list of Sessions. This fragment
@@ -47,7 +53,7 @@ public class SessionListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(int id);
     }
 
     /**
@@ -56,7 +62,7 @@ public class SessionListFragment extends ListFragment {
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(int id) {
         }
     };
 
@@ -71,12 +77,41 @@ public class SessionListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
+        // TODO: replace with a real list adapter. - DONE
+       /* setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                DummyContent.ITEMS));
+                DummyContent.ITEMS));*/
+
+        try
+        {
+            DbHandler dbHandler = new DbHandler(getActivity());
+            if (dbHandler.getSessions().isEmpty()) {
+                Toast.makeText(getActivity(), "Starting adding example sessions since the DB is empty", Toast.LENGTH_LONG).show();
+
+                ArrayList<Session> sessions = new ArrayList<Session>();
+
+                sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, "image.jpg"));
+                sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, "image2.jpg"));
+                sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, "image3.jpg"));
+                sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, "image4.jpg"));
+                for (Session session : sessions) {
+                    dbHandler.insertSession(session);
+                }
+            }
+
+            List<Session> sessionList = new DbHandler(getActivity()).getSessions();
+            ArrayList<Session> sessions = new ArrayList<Session>();
+            sessions.addAll(sessionList);
+
+            setListAdapter(new SessionsAdapter(getActivity(),sessions));
+        }
+        catch(Exception ex)
+        {
+            Log.e("Error: Exampledata", "Error while inserting/getting example data");
+        }
+
     }
 
     @Override
@@ -116,7 +151,16 @@ public class SessionListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+         try {
+             DbHandler dbHandler = new DbHandler(getActivity());
+mCallbacks.onItemSelected(dbHandler.getSession(toString()).id);
+         }
+        catch(Exception ex)
+        {
+            Log.e("Error: onListItemClick", "Error while calling callback onItemSelected");
+        }
+
+        //mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
     }
 
     @Override

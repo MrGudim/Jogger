@@ -39,8 +39,8 @@ public class SessionDetailActivity extends ActionBarActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(SessionDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(SessionDetailFragment.ARG_ITEM_ID));
+            arguments.putInt(SessionDetailFragment.ARG_ITEM_ID,
+                    getIntent().getIntExtra(SessionDetailFragment.ARG_ITEM_ID, 0));
             SessionDetailFragment fragment = new SessionDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
