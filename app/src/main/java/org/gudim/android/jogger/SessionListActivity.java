@@ -86,6 +86,8 @@ public class SessionListActivity extends ActionBarActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
        123123
+
+        If you declare the onCreateOptionMenu method, wich is the one where you put the elements in the actionbar, in you main activity (A), all the other activities that extend A without re-declaring that method will have the same actionbar of A.
         return true;
     }
 }
