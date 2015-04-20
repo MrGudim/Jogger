@@ -3,6 +3,7 @@ package org.gudim.android.jogger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 
 /**
@@ -21,7 +22,7 @@ import android.support.v4.app.FragmentActivity;
  * {@link SessionListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class SessionListActivity extends FragmentActivity
+public class SessionListActivity extends ActionBarActivity
         implements SessionListFragment.Callbacks {
 
     /**
@@ -34,7 +35,6 @@ public class SessionListActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_list);
-
         if (findViewById(R.id.session_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and

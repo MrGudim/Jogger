@@ -52,6 +52,7 @@ public class SessionDetailFragment extends Fragment {
             textViewTitle.setText(selectedSession.title);
             textViewLength.setText(String.format("Length: " + String.format("%.1f", selectedSession.length) + " km"));
             textViewDuration.setText(String.format("Duration: " + String.format("%.0f", selectedSession.duration) + " minutes"));
+            getActivity().setTitle(selectedSession.title);
         }
 
         return rootView;

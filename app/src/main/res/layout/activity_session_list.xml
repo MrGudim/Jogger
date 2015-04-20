@@ -3,6 +3,7 @@
     android:name="org.gudim.android.jogger.SessionListFragment" android:layout_width="match_parent"
     android:layout_height="match_parent" android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp" tools:context="org.gudim.android.jogger.SessionListActivity"
-    tools:layout="@android:layout/list_content" ></fragment>
+    tools:layout="@android:layout/list_content"
+    ></fragment>
 
 

@@ -86,7 +86,7 @@ public class SessionListFragment extends ListFragment {
         try {
             DbHandler dbHandler = new DbHandler(getActivity());
             if (dbHandler.getSessions().isEmpty()) {
-                Toast.makeText(getActivity(), "Starting adding example sessions since the DB is empty", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Adding example sessions since the DB is empty", Toast.LENGTH_LONG).show();
 
                 ArrayList<Session> sessions = new ArrayList<Session>();
 

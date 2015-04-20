@@ -6,4 +6,5 @@
     <string name="title_session_list">Sessions</string>
     <string name="title_session_detail">Session Detail</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_my_action_bar">MyActionBarActivity</string>
 </resources>
