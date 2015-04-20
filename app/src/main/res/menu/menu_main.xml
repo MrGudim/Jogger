@@ -4,4 +4,11 @@
     tools:context="org.gudim.android.jogger.SessionListActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:orderInCategory="2"
+        app:showAsAction="always"
+        android:title="Home"/>
+
 </menu>
