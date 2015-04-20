@@ -99,7 +99,8 @@ public class DbHandler {
         Session session = null;
         try {
             db = dbHelper.getReadableDatabase();
-            String query = "SELECT * FROM " + SessionContract.SessionEntry.TABLE_NAME;
+            String query = "SELECT * FROM " + SessionContract.SessionEntry.TABLE_NAME
+                    + " WHERE " + SessionContract.SessionEntry._ID + " == " + id;
 
             Cursor cursor = db.rawQuery(query, null);
             cursor.moveToFirst();

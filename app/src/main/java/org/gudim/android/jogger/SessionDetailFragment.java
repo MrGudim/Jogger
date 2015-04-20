@@ -2,6 +2,7 @@ package org.gudim.android.jogger;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class SessionDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private Session selectedSession;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,10 +41,18 @@ public class SessionDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
+            try{
+                DbHandler dbHandler = new DbHandler(getActivity());
+                selectedSession = dbHandler.getSession(getArguments().getInt(ARG_ITEM_ID));
+            }
+            catch(Exception ex)
+            {
+                Log.e("Error: onCreate", "Error while getting selected session from database");
+            }
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+
         }
     }
 
@@ -53,8 +62,10 @@ public class SessionDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_session_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.session_detail)).setText(mItem.content);
+        if (selectedSession != null) {
+            //((TextView) rootView.findViewById(R.id.session_detail)).setText(selectedSession.title);
+            TextView sessionTitle = (TextView) rootView.findViewById(R.id.sessionDetailTitle);
+            sessionTitle.setText(selectedSession.title);
         }
 
         return rootView;

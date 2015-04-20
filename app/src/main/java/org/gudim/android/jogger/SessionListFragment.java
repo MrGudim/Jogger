@@ -153,7 +153,9 @@ public class SessionListFragment extends ListFragment {
         // fragment is attached to one) that an item has been selected.
          try {
              DbHandler dbHandler = new DbHandler(getActivity());
-mCallbacks.onItemSelected(dbHandler.getSession(toString()).id);
+             Session session = (Session)listView.getAdapter().getItem(position);
+
+mCallbacks.onItemSelected(session.id);
          }
         catch(Exception ex)
         {
