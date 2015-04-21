@@ -4,8 +4,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 
 public class MyActionBarActivity extends ActionBarActivity {
@@ -21,17 +23,12 @@ public class MyActionBarActivity extends ActionBarActivity {
 
     private void initializeActionBar() {
         ActionBar actionbar = getSupportActionBar();
+        actionbar.setTitle("Hello from myActioNBarActivity");
         //TODO: IMPLEMENT ACTION BAR LOGIC
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_my_action_bar, menu);
-        return true;
-    }
 
-    @Override
+
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -39,10 +36,22 @@ public class MyActionBarActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.home:
+                Toast.makeText(getApplicationContext(), "Go to main page", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    //If you declare the onCreateOptionMenu method, which is the one where you put the elements in the actionbar,
+    //in you main activity (A), all the other activities that extend A without re-declaring that method will have the same actionbar of A.
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

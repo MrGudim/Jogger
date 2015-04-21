@@ -24,7 +24,7 @@ import android.view.MenuInflater;
  * {@link SessionListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class SessionListActivity extends ActionBarActivity
+public class SessionListActivity extends MyActionBarActivity
         implements SessionListFragment.Callbacks {
 
     /**
@@ -79,15 +79,5 @@ public class SessionListActivity extends ActionBarActivity
             detailIntent.putExtra(SessionDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-       123123
-
-        If you declare the onCreateOptionMenu method, wich is the one where you put the elements in the actionbar, in you main activity (A), all the other activities that extend A without re-declaring that method will have the same actionbar of A.
-        return true;
     }
 }

@@ -7,7 +7,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 
-public class SessionDetailActivity extends ActionBarActivity {
+public class SessionDetailActivity extends MyActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +27,5 @@ public class SessionDetailActivity extends ActionBarActivity {
                     .add(R.id.session_detail_container, fragment)
                     .commit();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            NavUtils.navigateUpTo(this, new Intent(this, SessionListActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
