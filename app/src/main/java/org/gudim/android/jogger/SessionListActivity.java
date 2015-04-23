@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.FrameLayout;
 
 
 /**
@@ -36,7 +38,14 @@ public class SessionListActivity extends MyActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_session_list);
+
+        // setContentView(R.layout.activity_session_list);
+        //injecting the layout into the content_frame of the menu layout
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.content_frame);
+        View activitySessionListView = getLayoutInflater().inflate(R.layout.activity_session_list, null);
+        frameLayout.addView(activitySessionListView);
+
+
         if (findViewById(R.id.session_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and

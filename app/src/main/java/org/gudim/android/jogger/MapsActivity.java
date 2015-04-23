@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -17,25 +19,26 @@ public class MapsActivity extends MyActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        //setContentView(R.layout.activity_maps);
+
+        //injecting the layout into the content_frame of the menu layout
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.content_frame);
+        View activityMapsView = getLayoutInflater().inflate(R.layout.activity_maps, null);
+        frameLayout.addView(activityMapsView);
+
+        //CUSTOM END
+
         setUpMapIfNeeded();
 
         //custom
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        catch(Exception ex)
-        {
-            Log.e("Yo",ex.getMessage() );
-        }
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         startService(new Intent(getBaseContext(), MapService.class));
     }
 
     //custom
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         stopService(new Intent(getBaseContext(), MapService.class));
         super.onBackPressed();
     }

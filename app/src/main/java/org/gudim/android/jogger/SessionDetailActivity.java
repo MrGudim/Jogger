@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
 
 public class SessionDetailActivity extends MyActionBarActivity {
@@ -12,7 +14,11 @@ public class SessionDetailActivity extends MyActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_session_detail);
+        //setContentView(R.layout.activity_session_detail);
+        //injecting the layout into the content_frame of the menu layout
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.content_frame);
+        View activitySessionDetailView = getLayoutInflater().inflate(R.layout.activity_session_detail, null);
+        frameLayout.addView(activitySessionDetailView);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
