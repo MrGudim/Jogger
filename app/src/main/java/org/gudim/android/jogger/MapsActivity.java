@@ -3,6 +3,7 @@ package org.gudim.android.jogger;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -20,6 +21,15 @@ public class MapsActivity extends MyActionBarActivity {
         setUpMapIfNeeded();
 
         //custom
+        try
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        catch(Exception ex)
+        {
+            Log.e("Yo",ex.getMessage() );
+        }
+
         startService(new Intent(getBaseContext(), MapService.class));
     }
 

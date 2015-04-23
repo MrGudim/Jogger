@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,11 +39,17 @@ public class MyActionBarActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+
         switch (id) {
-            case R.id.home:
+            case R.id.homeButton:
                 //Toast.makeText(getApplicationContext(), "Go to main page", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MapsActivity.class);
                 startActivity(intent);
+                return true;
+            //This is the "up" button for slave activities that makes them go back to master
+            case android.R.id.home:
+                onBackPressed();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
