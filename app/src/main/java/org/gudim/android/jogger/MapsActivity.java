@@ -1,5 +1,6 @@
 package org.gudim.android.jogger;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -8,7 +9,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity {
+public class MapsActivity extends MyActionBarActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -17,6 +18,16 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+
+        //custom
+        startService(new Intent(getBaseContext(), MapService.class));
+    }
+
+    //custom
+    @Override
+    public void onBackPressed(){
+        stopService(new Intent(getBaseContext(), MapService.class));
+        super.onBackPressed();
     }
 
     @Override

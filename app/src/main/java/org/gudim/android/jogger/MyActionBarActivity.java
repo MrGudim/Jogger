@@ -1,5 +1,6 @@
 package org.gudim.android.jogger;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -39,7 +40,9 @@ public class MyActionBarActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.home:
-                Toast.makeText(getApplicationContext(), "Go to main page", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Go to main page", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
