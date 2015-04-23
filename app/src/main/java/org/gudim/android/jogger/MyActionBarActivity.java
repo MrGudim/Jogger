@@ -3,6 +3,9 @@ package org.gudim.android.jogger;
 import android.app.Fragment;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -61,16 +64,12 @@ public class MyActionBarActivity extends ActionBarActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                //getSupportActionBar().setTitle("Closed state");
-                getSupportActionBar().show();
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View view) {
                 super.onDrawerOpened(view);
-                //getSupportActionBar().setTitle("Open state");
-                getSupportActionBar().hide();
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -91,25 +90,21 @@ public class MyActionBarActivity extends ActionBarActivity {
         //Register
         if (position == 0) {
             Intent intent = new Intent(this, SessionListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
-            if(this.getClass().toString() == SessionListActivity.class.toString())
-                finish();
         }
         //List
 
         else if (position == 1) {
             Intent intent = new Intent(this, SessionListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
-            finish();
         }
         //Map
         else if (position == 2) {
             Intent intent = new Intent(this, MapsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
-            finish();
         }
     }
 
