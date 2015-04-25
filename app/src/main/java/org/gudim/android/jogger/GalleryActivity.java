@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -37,11 +38,22 @@ public class GalleryActivity extends MyActionBarActivity {
             }
         });
 
+        GridView gridView = (GridView) findViewById(R.id.gridViewGalleryPictures);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               Bitmap image = (Bitmap) parent.getAdapter().getItem(position);
+                Intent intent = new Intent(getApplicationContext(), FullscreenImageActivity.class);
+                intent.putExtra("BitmapImage", image);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
 
-        populateImagelist();
+        populateImagegrid();
     }
 
-    private void populateImagelist()
+    private void populateImagegrid()
     {
         GridView gridView = (GridView) findViewById(R.id.gridViewGalleryPictures);
         ImageHelper imageHelper = new ImageHelper(getApplicationContext());
@@ -67,6 +79,7 @@ public class GalleryActivity extends MyActionBarActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             ImageHelper imageHelper = new ImageHelper(getApplicationContext());
             imageHelper.saveImageToInternalStorage(imageBitmap);
+            populateImagegrid();
         }
     }
 }

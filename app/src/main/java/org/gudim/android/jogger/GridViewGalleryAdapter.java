@@ -15,13 +15,16 @@ import java.util.ArrayList;
  */
 
     public class GridViewGalleryAdapter extends ArrayAdapter<Bitmap> {
+
+       ArrayList<Bitmap> mImages;
         public GridViewGalleryAdapter(Context context, ArrayList<Bitmap> images) {
             super(context, 0, images);
+            mImages = images;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            Bitmap image = getItem(position);
+            Bitmap image = super.getItem(position);
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.gallery_grid_item, parent, false);
             }
@@ -31,5 +34,15 @@ import java.util.ArrayList;
 
             return convertView;
         }
+
+    @Override
+    public Bitmap getItem(int position) {
+        return mImages.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     }

@@ -8,13 +8,15 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.camera" android:required="true"></uses-feature>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <!--
  The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but are recommended.
     -->
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -68,6 +70,10 @@
             android:name=".GalleryActivity"
             android:label="@string/title_activity_gallery"
             android:parentActivityName=".MyActionBarActivity" >
+        </activity>
+        <activity
+            android:name=".FullscreenImageActivity"
+            android:label="@string/title_activity_fullscreen_image" >
         </activity>
     </application>
 
