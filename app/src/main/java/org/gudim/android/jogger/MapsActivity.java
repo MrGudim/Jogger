@@ -39,6 +39,7 @@ public class MapsActivity extends MyActionBarActivity {
     //custom
     @Override
     public void onBackPressed() {
+
         stopService(new Intent(getBaseContext(), MapService.class));
         super.onBackPressed();
     }

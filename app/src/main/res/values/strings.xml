@@ -9,4 +9,5 @@
     <string name="title_activity_my_action_bar">MyActionBarActivity</string>
     <string name="drawer_opened">The drawer was opened</string>
     <string name="drawer_closed">The drawer was closed</string>
+    <string name="title_activity_gallery">GalleryActivity</string>
 </resources>

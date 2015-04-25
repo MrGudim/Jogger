@@ -43,6 +43,7 @@ public class MyActionBarActivity extends ActionBarActivity {
         drawerItems.add("New session");
         drawerItems.add("Sessions");
         drawerItems.add("Map");
+        drawerItems.add("Gallery");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -83,7 +84,7 @@ public class MyActionBarActivity extends ActionBarActivity {
      */
     private void onItemSelected(int position) {
         // Specify the activity to show based on position
-// 1 == Register, 2 == List, 3 == Map
+// 0 == Register, 1 == List, 2 == Map, 3 == Gallery
         drawerList.setItemChecked(position, true);
         drawerLayout.closeDrawer(drawerList);
 
@@ -103,6 +104,12 @@ public class MyActionBarActivity extends ActionBarActivity {
         //Map
         else if (position == 2) {
             Intent intent = new Intent(this, MapsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+//Gallery
+        else if (position == 3) {
+            Intent intent = new Intent(this, GalleryActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }

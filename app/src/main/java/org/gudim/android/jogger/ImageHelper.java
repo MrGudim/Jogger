@@ -11,7 +11,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by hansg_000 on 14.04.2015.
@@ -26,7 +28,7 @@ public class ImageHelper {
 
     public String saveImageToInternalStorage(Bitmap image) {
         ContextWrapper contextWrapper = new ContextWrapper(context);
-        String fileName = new SimpleDateFormat("yyyyMMdd'.jpg'").format(new Date());
+        String fileName = new Date().toString(); //new SimpleDateFormat("yyyyMMdd'.jpg'").format(new Date());
 
         try {
             File directory = contextWrapper.getDir(IMAGE_DIR, Context.MODE_PRIVATE);
@@ -59,5 +61,24 @@ public class ImageHelper {
         }
 
         return image;
+    }
+
+    public List<Bitmap> loadImagesFromInternalStorage() {
+        ContextWrapper contextWrapper = new ContextWrapper(context);
+        List<Bitmap> bitmapList = new ArrayList<Bitmap>();
+
+        try {
+            File directory = contextWrapper.getDir(IMAGE_DIR, Context.MODE_PRIVATE);
+            for(File file : directory.listFiles())
+            {
+                bitmapList.add(BitmapFactory.decodeFile(file.getAbsolutePath()));
+            }
+
+        } catch (Exception ex) {
+            Log.e("Loading image failed.", "Imagehelper.loadImageFromInternalStorage() failed.");
+            ex.printStackTrace();
+        }
+
+        return bitmapList;
     }
 }
