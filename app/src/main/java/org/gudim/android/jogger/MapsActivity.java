@@ -108,7 +108,7 @@ public class MapsActivity extends MyActionBarActivity {
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 30));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 150));
             }
 
         });
