@@ -64,7 +64,7 @@
             -->
         </activity>
 
-        <service android:name=".MapService" />
+        <service android:name="maps.MapService" />
 
         <activity
             android:name=".GalleryActivity"

@@ -1,4 +1,4 @@
-package org.gudim.android.jogger;
+package jogger.database;
 
 import android.provider.BaseColumns;
 

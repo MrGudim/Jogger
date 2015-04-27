@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -14,6 +13,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import helper.SessionsAdapter;
+import jogger.database.DbHandler;
+import model.Session;
 
 /**
  * A list fragment representing a list of Sessions. This fragment

@@ -1,4 +1,4 @@
-package org.gudim.android.jogger;
+package model;
 
 import android.media.Image;
 import android.net.Uri;

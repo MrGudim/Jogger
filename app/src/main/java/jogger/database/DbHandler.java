@@ -1,10 +1,12 @@
-package org.gudim.android.jogger;
+package jogger.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import android.database.Cursor;
+
+import model.Session;
 
 import java.text.DateFormat;
 import java.text.ParseException;

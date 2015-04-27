@@ -1,4 +1,4 @@
-package org.gudim.android.jogger;
+package helper;
 
 import android.content.Context;
 import android.content.ContextWrapper;

@@ -3,20 +3,17 @@ package org.gudim.android.jogger;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
 
 import java.util.ArrayList;
+
+import helper.GridViewGalleryAdapter;
+import helper.ImageHelper;
 
 
 public class GalleryActivity extends MyActionBarActivity {

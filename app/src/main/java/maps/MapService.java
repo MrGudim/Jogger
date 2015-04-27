@@ -1,4 +1,4 @@
-package org.gudim.android.jogger;
+package maps;
 
 import android.app.Service;
 import android.content.Intent;
