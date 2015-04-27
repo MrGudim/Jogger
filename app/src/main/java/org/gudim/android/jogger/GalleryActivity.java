@@ -59,7 +59,6 @@ public class GalleryActivity extends MyActionBarActivity {
         images.addAll(imageHelper.loadImagesFromInternalStorage());
 
         gridView.setAdapter(new GridViewGalleryAdapter(getApplicationContext(), images));
-        //imageView.setImageBitmap(imageHelper.loadImagesFromInternalStorage());
     }
 
     private void dispatchTakePictureIntent() {

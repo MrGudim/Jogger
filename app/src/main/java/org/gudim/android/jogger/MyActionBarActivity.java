@@ -125,8 +125,14 @@ public class MyActionBarActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.homeButton:
-                Intent intent = new Intent(this, MapsActivity.class);
-                startActivity(intent);
+                if(drawerLayout.isDrawerOpen(drawerList))
+                {
+                    drawerLayout.closeDrawer(drawerList);
+                }
+                else
+                {
+                    drawerLayout.openDrawer(drawerList);
+                }
                 return true;
             //This is the "up"/"back" button on the actionbar for slave activities
             case android.R.id.home:

@@ -54,22 +54,13 @@
         <activity
             android:name=".MyActionBarActivity"
             android:label="@string/title_activity_my_action_bar" >
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
 
         <service android:name="maps.MapService" />
 
         <activity
             android:name=".GalleryActivity"
-            android:label="@string/title_activity_gallery"
-            android:parentActivityName=".MyActionBarActivity" >
+            android:label="@string/title_activity_gallery">
         </activity>
         <activity
             android:name=".FullscreenImageActivity"
