@@ -39,11 +39,14 @@ public class MyActionBarActivity extends ActionBarActivity {
     }
 
     private void initializeDrawer() {
+        // Initializing drawer items
+        // 0 == Register, 1 == List, 2 == Map, 3 == Gallery, 4 == Calculator
         ArrayList<String> drawerItems = new ArrayList<String>();
         drawerItems.add("New session");
         drawerItems.add("Sessions");
         drawerItems.add("Map");
         drawerItems.add("Gallery");
+        drawerItems.add("Calculator");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -84,7 +87,7 @@ public class MyActionBarActivity extends ActionBarActivity {
      */
     private void onItemSelected(int position) {
         // Specify the activity to show based on position
-// 0 == Register, 1 == List, 2 == Map, 3 == Gallery
+        // 0 == Register, 1 == List, 2 == Map, 3 == Gallery, 4 == Calculator
         drawerList.setItemChecked(position, true);
         drawerLayout.closeDrawer(drawerList);
 
@@ -107,9 +110,16 @@ public class MyActionBarActivity extends ActionBarActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
-//Gallery
+        //Gallery
         else if (position == 3) {
             Intent intent = new Intent(this, GalleryActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+        //Calculator
+        else if( position == 4)
+        {
+            Intent intent = new Intent(this, CalculatorActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }

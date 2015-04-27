@@ -46,6 +46,7 @@ public class ImageHelper {
         return fileName;
     }
 
+
     public Bitmap loadImageFromInternalStorage(String fileName) {
         ContextWrapper contextWrapper = new ContextWrapper(context);
         Bitmap image = null;
@@ -71,7 +72,8 @@ public class ImageHelper {
             File directory = contextWrapper.getDir(IMAGE_DIR, Context.MODE_PRIVATE);
             for(File file : directory.listFiles())
             {
-                bitmapList.add(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                Bitmap image = BitmapFactory.decodeFile(file.getPath());
+                bitmapList.add(image);
             }
 
         } catch (Exception ex) {

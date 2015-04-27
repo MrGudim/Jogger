@@ -2,14 +2,17 @@ package org.gudim.android.jogger;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import helper.GridViewGalleryAdapter;
@@ -63,15 +66,21 @@ public class GalleryActivity extends MyActionBarActivity {
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, STATUS_CODE_REQUEST_IMAGE_CAPTURE);
+
+
+                startActivityForResult(takePictureIntent, STATUS_CODE_REQUEST_IMAGE_CAPTURE);
+
+
+
         }
     }
 
-    @Override
+   @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == STATUS_CODE_REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
+           Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             ImageHelper imageHelper = new ImageHelper(getApplicationContext());
             imageHelper.saveImageToInternalStorage(imageBitmap);

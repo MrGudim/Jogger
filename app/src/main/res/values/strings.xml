@@ -11,4 +11,5 @@
     <string name="drawer_closed">The drawer was closed</string>
     <string name="title_activity_gallery">GalleryActivity</string>
     <string name="title_activity_fullscreen_image">FullscreenImageActivity</string>
+    <string name="title_activity_calculator">CalculatorActivity</string>
 </resources>
