@@ -7,14 +7,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class MapsActivity extends MyActionBarActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private LatLngBounds latLngBounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +33,18 @@ public class MapsActivity extends MyActionBarActivity {
         View activityMapsView = getLayoutInflater().inflate(R.layout.activity_maps, null);
         frameLayout.addView(activityMapsView);
 
-        //CUSTOM END
-
         setUpMapIfNeeded();
 
-        //custom
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //startService(new Intent(getBaseContext(), MapService.class));
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        startService(new Intent(getBaseContext(), MapService.class));
     }
 
     //custom
     @Override
     public void onBackPressed() {
 
-        stopService(new Intent(getBaseContext(), MapService.class));
+        //stopService(new Intent(getBaseContext(), MapService.class));
         super.onBackPressed();
     }
 
@@ -85,6 +89,39 @@ public class MapsActivity extends MyActionBarActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        DbHandler dbHandler = new DbHandler(getApplicationContext());
+        MapHelper mapHelper = new MapHelper(getApplicationContext());
+        List<Session> sessions = dbHandler.getSessions();
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Session session : sessions) {
+            LatLng location = mapHelper.getLocationFromAddress(session.address);
+
+            Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(session.title).snippet("" + session.id));
+            builder.include(marker.getPosition());
+
+        }
+
+        latLngBounds = builder.build();
+
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 30));
+            }
+
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Intent detailIntent = new Intent(getApplicationContext(), SessionDetailActivity.class);
+                //saving marker id in snippet
+                detailIntent.putExtra(SessionDetailFragment.ARG_ITEM_ID, Integer.parseInt(marker.getSnippet()));
+                startActivity(detailIntent);
+                //Dont run default behavior
+                return true;
+            }
+        });
     }
 }

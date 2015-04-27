@@ -23,7 +23,8 @@ public static final String DATABASE_NAME = "Session.db";
                     SessionContract.SessionEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
                     SessionContract.SessionEntry.COLUMN_NAME_IMAGEURL + TEXT_TYPE + COMMA_SEP +
                     SessionContract.SessionEntry.COLUMN_NAME_LENGTH + REAL_TYPE + COMMA_SEP +
-                    SessionContract.SessionEntry.COLUMN_NAME_DURATION + REAL_TYPE  +
+                    SessionContract.SessionEntry.COLUMN_NAME_DURATION + REAL_TYPE  + COMMA_SEP +
+                    SessionContract.SessionEntry.COLUMN_NAME_ADDRESS + TEXT_TYPE +
     ")";
 
     private static final String SQL_DELETE_ENTRIES =

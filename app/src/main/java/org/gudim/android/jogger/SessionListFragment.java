@@ -90,10 +90,10 @@ public class SessionListFragment extends ListFragment {
 
                 ArrayList<Session> sessions = new ArrayList<Session>();
 
-                sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, "image.jpg"));
-                sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, "image2.jpg"));
-                sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, "image3.jpg"));
-                sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, "image4.jpg"));
+                sessions.add(new Session(new Date(), "Tittel1", 100.00, 200.00, "image.jpg", "Oslo, Norway"));
+                sessions.add(new Session(new Date(), "Tittel2", 110.00, 210.00, "image2.jpg", "Fredrikstad, Norway"));
+                sessions.add(new Session(new Date(), "Tittel3", 120.00, 220.00, "image3.jpg", "Sarpsborg, Norway"));
+                sessions.add(new Session(new Date(), "Tittel4", 130.00, 230.00, "image4.jpg", "Halden, Norway"));
                 for (Session session : sessions) {
                     dbHandler.insertSession(session);
                 }

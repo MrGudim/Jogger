@@ -38,7 +38,8 @@ public class DbHandler {
                     + SessionContract.SessionEntry.COLUMN_NAME_DATE + ", "
                     + SessionContract.SessionEntry.COLUMN_NAME_DURATION + ", "
                     + SessionContract.SessionEntry.COLUMN_NAME_LENGTH + ", "
-                    + SessionContract.SessionEntry.COLUMN_NAME_TITLE
+                    + SessionContract.SessionEntry.COLUMN_NAME_TITLE + ", "
+                    + SessionContract.SessionEntry.COLUMN_NAME_ADDRESS
                     + ") VALUES ("
                     + "'" + session.imageUrl + "'"
                     + ","
@@ -49,6 +50,8 @@ public class DbHandler {
                     + session.length
                     + ","
                     + "'" + session.title + "'"
+                    + ","
+                    + "'"+ session.address + "'"
                     + ")";
             db.execSQL(query);
         } catch (SQLiteException ex) {
@@ -79,8 +82,9 @@ public class DbHandler {
                 double length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
                 double duration = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DURATION));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_IMAGEURL));
+                String address = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_ADDRESS));
 
-                Session session = new Session(date, title, length, duration, imageUrl);
+                Session session = new Session(date, title, length, duration, imageUrl, address);
                 session.id = sessionId;
 
                 sessions.add(session);
@@ -112,7 +116,8 @@ public class DbHandler {
                 double length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
                 double duration = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DURATION));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_IMAGEURL));
-                session = new Session(date, title, length, duration, imageUrl);
+                String address = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_ADDRESS));
+                session = new Session(date, title, length, duration, imageUrl, address);
                 session.id = sessionId;
             }
         } catch (SQLiteException ex) {
