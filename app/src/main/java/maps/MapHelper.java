@@ -43,6 +43,7 @@ public class MapHelper {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            return null;
         }
         return null;
     }

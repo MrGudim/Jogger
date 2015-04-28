@@ -1,9 +1,11 @@
 package org.gudim.android.jogger;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
+import helper.UtilityHelper;
 import jogger.database.DbHandler;
 import maps.MapHelper;
 import model.Session;
@@ -78,7 +81,12 @@ public class MapsActivity extends MyActionBarActivity {
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap();
+                UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
+                if (utilityHelper.isConnectedToInternet()) {
+                    setUpMap();
+                } else {
+                    Toast.makeText(getApplicationContext(), "The map could not be opened because of no internet connection.", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
@@ -90,16 +98,18 @@ public class MapsActivity extends MyActionBarActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        DbHandler dbHandler = new DbHandler(getApplicationContext());
-        MapHelper mapHelper = new MapHelper(getApplicationContext());
+        Context context = getApplicationContext();
+        DbHandler dbHandler = new DbHandler(context);
+        MapHelper mapHelper = new MapHelper(context);
         List<Session> sessions = dbHandler.getSessions();
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Session session : sessions) {
             LatLng location = mapHelper.getLocationFromAddress(session.address);
-
-            Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(session.title).snippet("" + session.id));
-            builder.include(marker.getPosition());
+            if (location != null) {
+                Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(session.title).snippet("" + session.id));
+                builder.include(marker.getPosition());
+            }
 
         }
 
