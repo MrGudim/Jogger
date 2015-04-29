@@ -35,6 +35,7 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         registerSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                _mapService.counter++;
                 Toast.makeText(getApplicationContext(), "Click. Count: " + _mapService.counter, Toast.LENGTH_LONG).show();
             }
         });
