@@ -37,7 +37,13 @@ public class MapsActivity extends MyActionBarActivity {
         View activityMapsView = getLayoutInflater().inflate(R.layout.activity_maps, null);
         frameLayout.addView(activityMapsView);
 
-        setUpMapIfNeeded();
+        UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
+        if (utilityHelper.isConnectedToInternet()) {
+            setUpMapIfNeeded();
+        } else {
+            Toast.makeText(getApplicationContext(), "The map could not be opened because of no internet connection.", Toast.LENGTH_LONG).show();
+        }
+
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //startService(new Intent(getBaseContext(), MapService.class));
@@ -55,7 +61,12 @@ public class MapsActivity extends MyActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
+        UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
+        if (utilityHelper.isConnectedToInternet()) {
+            setUpMapIfNeeded();
+        } else {
+            Toast.makeText(getApplicationContext(), "The map could not be opened because of no internet connection.", Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
@@ -81,12 +92,7 @@ public class MapsActivity extends MyActionBarActivity {
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
-                if (utilityHelper.isConnectedToInternet()) {
-                    setUpMap();
-                } else {
-                    Toast.makeText(getApplicationContext(), "The map could not be opened because of no internet connection.", Toast.LENGTH_LONG).show();
-                }
+             setUpMap();
             }
         }
     }
