@@ -12,4 +12,5 @@
     <string name="title_activity_gallery">GalleryActivity</string>
     <string name="title_activity_fullscreen_image">FullscreenImageActivity</string>
     <string name="title_activity_calculator">CalculatorActivity</string>
+    <string name="title_activity_register_session">RegisterSessionActivity</string>
 </resources>

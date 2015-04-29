@@ -93,7 +93,7 @@ public class MyActionBarActivity extends ActionBarActivity {
 
         //Register
         if (position == 0) {
-            Intent intent = new Intent(this, SessionListActivity.class);
+            Intent intent = new Intent(this, RegisterSessionActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }

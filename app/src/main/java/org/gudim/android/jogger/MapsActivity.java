@@ -20,6 +20,7 @@ import java.util.List;
 import helper.UtilityHelper;
 import jogger.database.DbHandler;
 import maps.MapHelper;
+import maps.MapService;
 import model.Session;
 
 public class MapsActivity extends MyActionBarActivity {

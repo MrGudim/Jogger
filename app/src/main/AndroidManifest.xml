@@ -70,6 +70,10 @@
             android:name=".CalculatorActivity"
             android:label="@string/title_activity_calculator" >
         </activity>
+        <activity
+            android:name=".RegisterSessionActivity"
+            android:label="@string/title_activity_register_session" >
+        </activity>
     </application>
 
 </manifest>
