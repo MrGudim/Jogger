@@ -17,7 +17,14 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import jogger.database.DbHandler;
 import maps.MapService;
+import model.Session;
 
 
 public class RegisterSessionActivity extends MyActionBarActivity {
@@ -39,31 +46,54 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         registerSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Button) findViewById(R.id.registerSessionButton)).setText("Stop");
-                ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#FF0000"));
-
                 Intent intent = new Intent(getApplicationContext(), MapService.class);
                 if (_mapService == null || !_mapService.isStarted) {
-
-                    Thread thread = new Thread() {
-                        public void run() {
-                            Intent intent = new Intent(getApplicationContext(), MapService.class);
-                            startService(intent);
-                            getApplicationContext().bindService(intent, _serviceConnection, Context.BIND_AUTO_CREATE);
-                        }
-                    };
-                    thread.run();
+                    startMapService();
                 } else {
-                    ((Button) findViewById(R.id.registerSessionButton)).setText("Start");
-                    ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#00FF55"));
-                    getApplicationContext().unbindService(_serviceConnection);
-                    getApplicationContext().stopService(intent);
+                    stopMapService();
                 }
 
             }
         });
     }
 
+    private void startMapService()
+    {
+        ((Button) findViewById(R.id.registerSessionButton)).setText("Stop");
+        ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#FF0000"));
+
+        Thread thread = new Thread() {
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), MapService.class);
+                startService(intent);
+                getApplicationContext().bindService(intent, _serviceConnection, Context.BIND_AUTO_CREATE);
+            }
+        };
+        thread.run();
+    }
+
+    private void stopMapService()
+    {
+        ArrayList<LatLng> locations = _mapService.locations;
+        Date startTime = _mapService.startTime;
+        Date endTime = new Date();
+        if(locations != null && locations.size() > 0) {
+            saveSession(locations, startTime, endTime);
+            Toast.makeText(this, "Location count : " + locations.size(), Toast.LENGTH_SHORT).show();
+        }
+        ((Button) findViewById(R.id.registerSessionButton)).setText("Start");
+        ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#00FF55"));
+        getApplicationContext().unbindService(_serviceConnection);
+        Intent intent = new Intent(getApplicationContext(), MapService.class);
+        getApplicationContext().stopService(intent);
+    }
+
+    private void saveSession(ArrayList<LatLng> locations, Date startTime, Date endTime)
+    {
+        DbHandler dbHandler = new DbHandler(this);
+        ///GET DISTANCE
+        //dbHandler.insertSession(null);
+    }
 
     @Override
     protected void onResume() {
@@ -92,7 +122,6 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         public void onServiceConnected(ComponentName className, IBinder binder) {
             MapService.ServiceBinder serviceBinder = (MapService.ServiceBinder) binder;
             _mapService = serviceBinder.getService();
-            Toast.makeText(getApplicationContext(), "Service binding succeeded. Count: " + _mapService.counter, Toast.LENGTH_SHORT).show();
         }
 
         @Override

@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.plus.Plus;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -38,23 +39,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class MapService extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private final IBinder _binder = new ServiceBinder();
-    public int counter;
     public boolean isStarted = false;
     private LocationRequest _locationRequest;
     private GoogleApiClient _googleApiClient;
-    public List<LatLng> locations;
+    public ArrayList<LatLng> locations;
+    public Date startTime;
 
     @Override
     public void onCreate() {
-        counter = 1;
-        isStarted = true;
         locations = new ArrayList<LatLng>();
-
-
-        _locationRequest = LocationRequest.create();
-        _locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        _locationRequest.setInterval(5000);
-        _googleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
     }
 
     @Override
@@ -64,8 +57,15 @@ public class MapService extends Service implements com.google.android.gms.locati
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        _googleApiClient.connect();
+        isStarted = true;
+        _locationRequest = LocationRequest.create();
+        _locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        _locationRequest.setInterval(5000);
+        _googleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
+        startTime = new Date();
 
+
+        _googleApiClient.connect();
         return Service.START_NOT_STICKY;
     }
 
@@ -109,21 +109,4 @@ public class MapService extends Service implements com.google.android.gms.locati
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Toast.makeText(this, "Location connection failed", Toast.LENGTH_SHORT).show();
     }
-
-
-
-    /*public void startLocationReading()
-    {
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                new GoogleApiClient.Builder(getApplicationContext())
-                        .addApi(LocationServices.API)
-                        .addConnectionCallbacks()
-                        .addOnConnectionFailedListener()
-                        .build()
-            }
-        }, 0, 5000);
-    */
-
 }
