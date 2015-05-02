@@ -18,7 +18,7 @@ public class MapService extends Service {
     @Override
     public void onCreate() {
         counter = 1;
-        Toast.makeText(this, "Service created. Count: " + counter, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Service created. Count: " + counter, Toast.LENGTH_SHORT).show();
         isStarted = true;
     }
 
@@ -31,14 +31,15 @@ public class MapService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         counter++;
-        Toast.makeText(this, "Service started. Count: " + counter, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Service started. Count: " + counter, Toast.LENGTH_SHORT).show();
         return Service.START_NOT_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Service stopped", Toast.LENGTH_LONG).show();
+        isStarted = false;
+        Toast.makeText(this, "Service stopped", Toast.LENGTH_SHORT).show();
     }
 
     public class ServiceBinder extends Binder {

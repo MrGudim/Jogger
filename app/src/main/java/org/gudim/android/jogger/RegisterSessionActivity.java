@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -32,30 +33,57 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         frameLayout.addView(activityRegisterSessionDetailView);
 
         Button registerSessionButton = (Button) findViewById(R.id.registerSessionButton);
+        registerSessionButton.setText("Start");
+        registerSessionButton.setBackgroundColor(Color.parseColor("#00FF55"));
+
         registerSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _mapService.counter++;
-                Toast.makeText(getApplicationContext(), "Click. Count: " + _mapService.counter, Toast.LENGTH_LONG).show();
+                ((Button) findViewById(R.id.registerSessionButton)).setText("Stop");
+                ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#FF0000"));
+
+                Intent intent = new Intent(getApplicationContext(), MapService.class);
+                if (_mapService == null || !_mapService.isStarted) {
+
+                    Thread thread = new Thread() {
+                        public void run() {
+                            Intent intent = new Intent(getApplicationContext(), MapService.class);
+                            startService(intent);
+                            getApplicationContext().bindService(intent, _serviceConnection, Context.BIND_AUTO_CREATE);
+                        }
+                    };
+                    thread.run();
+                } else {
+                    ((Button) findViewById(R.id.registerSessionButton)).setText("Start");
+                    ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#00FF55"));
+                    getApplicationContext().unbindService(_serviceConnection);
+                    getApplicationContext().stopService(intent);
+                }
+
             }
         });
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        Intent intent = new Intent(this, MapService.class);
-        if (_mapService == null || !_mapService.isStarted) {
-            startService(intent);
+        if (_mapService != null && _mapService.isStarted) {
+            Thread thread = new Thread() {
+                public void run() {
+                    Intent intent = new Intent(getApplicationContext(), MapService.class);
+                    getApplicationContext().bindService(intent, _serviceConnection, Context.BIND_AUTO_CREATE);
+                }
+            };
+            thread.run();
         }
-        bindService(intent, _serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unbindService(_serviceConnection);
+        getApplicationContext().unbindService(_serviceConnection);
     }
 
     ServiceConnection _serviceConnection = new ServiceConnection() {
@@ -64,7 +92,7 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         public void onServiceConnected(ComponentName className, IBinder binder) {
             MapService.ServiceBinder serviceBinder = (MapService.ServiceBinder) binder;
             _mapService = serviceBinder.getService();
-            Toast.makeText(getApplicationContext(), "Service binding succeeded. Count: " + _mapService.counter, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Service binding succeeded. Count: " + _mapService.counter, Toast.LENGTH_SHORT).show();
         }
 
         @Override
