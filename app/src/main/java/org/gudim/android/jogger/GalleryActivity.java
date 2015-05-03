@@ -2,6 +2,7 @@ package org.gudim.android.jogger;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
@@ -82,6 +83,9 @@ public class GalleryActivity extends MyActionBarActivity {
         if (requestCode == STATUS_CODE_REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
            Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            imageBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, imageBitmap.getWidth(), imageBitmap.getHeight(), matrix, true);
             ImageHelper imageHelper = new ImageHelper(getApplicationContext());
             imageHelper.saveImageToInternalStorage(imageBitmap);
             populateImagegrid();

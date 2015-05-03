@@ -44,11 +44,6 @@ public class MapsActivity extends MyActionBarActivity {
         } else {
             Toast.makeText(getApplicationContext(), "The map could not be opened because of no internet connection.", Toast.LENGTH_LONG).show();
         }
-
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //startService(new Intent(getBaseContext(), MapService.class));
-
     }
 
     //custom
@@ -93,7 +88,7 @@ public class MapsActivity extends MyActionBarActivity {
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-             setUpMap();
+                setUpMap();
             }
         }
     }

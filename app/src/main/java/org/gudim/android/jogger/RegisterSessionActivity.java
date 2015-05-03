@@ -40,14 +40,19 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         frameLayout.addView(activityRegisterSessionDetailView);
 
         Button registerSessionButton = (Button) findViewById(R.id.registerSessionButton);
-        registerSessionButton.setText("Start");
-        registerSessionButton.setBackgroundColor(Color.parseColor("#00FF55"));
+        if (MapService.IsStarted) {
+            registerSessionButton.setText("Stop");
+            registerSessionButton.setBackgroundColor(Color.parseColor("#FF0000"));
+        } else {
+            registerSessionButton.setText("Start");
+            registerSessionButton.setBackgroundColor(Color.parseColor("#00FF55"));
+        }
 
         registerSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MapService.class);
-                if (_mapService == null || !_mapService.isStarted) {
+                if (_mapService == null || !_mapService.IsStarted) {
                     startMapService();
                 } else {
                     stopMapService();
@@ -57,27 +62,26 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         });
     }
 
-    private void startMapService()
-    {
+    private void startMapService() {
         ((Button) findViewById(R.id.registerSessionButton)).setText("Stop");
         ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#FF0000"));
 
         Thread thread = new Thread() {
             public void run() {
                 Intent intent = new Intent(getApplicationContext(), MapService.class);
-                startService(intent);
+                if (!MapService.IsStarted)
+                    startService(intent);
                 getApplicationContext().bindService(intent, _serviceConnection, Context.BIND_AUTO_CREATE);
             }
         };
         thread.run();
     }
 
-    private void stopMapService()
-    {
+    private void stopMapService() {
         ArrayList<LatLng> locations = _mapService.locations;
         Date startTime = _mapService.startTime;
         Date endTime = new Date();
-        if(locations != null && locations.size() > 0) {
+        if (locations != null && locations.size() > 0) {
             saveSession(locations, startTime, endTime);
             Toast.makeText(this, "Location count : " + locations.size(), Toast.LENGTH_SHORT).show();
         }
@@ -88,18 +92,22 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         getApplicationContext().stopService(intent);
     }
 
-    private void saveSession(ArrayList<LatLng> locations, Date startTime, Date endTime)
-    {
+    private void saveSession(ArrayList<LatLng> locations, Date startTime, Date endTime) {
         DbHandler dbHandler = new DbHandler(this);
         ///GET DISTANCE
         //dbHandler.insertSession(null);
     }
 
     @Override
+    protected void onStop()
+    {
+        super.onStop();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-
-        if (_mapService != null && _mapService.isStarted) {
+        if (_mapService.IsStarted) {
             Thread thread = new Thread() {
                 public void run() {
                     Intent intent = new Intent(getApplicationContext(), MapService.class);
@@ -113,7 +121,8 @@ public class RegisterSessionActivity extends MyActionBarActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        getApplicationContext().unbindService(_serviceConnection);
+        if (_mapService.IsStarted)
+            getApplicationContext().getApplicationContext().unbindService(_serviceConnection);
     }
 
     ServiceConnection _serviceConnection = new ServiceConnection() {
