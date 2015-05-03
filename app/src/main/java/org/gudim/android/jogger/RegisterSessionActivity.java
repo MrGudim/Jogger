@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.Date;
 
+import helper.UtilityHelper;
 import jogger.database.DbHandler;
 import maps.MapHelper;
 import maps.MapService;
@@ -95,11 +96,17 @@ public class RegisterSessionActivity extends MyActionBarActivity {
 
     private void saveSession(ArrayList<LatLng> points, Date startTime, Date endTime) {
         MapHelper mapHelper = new MapHelper(getApplicationContext());
-        Double distance = mapHelper.getTotalDistanceBetweenMultiplePoints(points);
-        Toast.makeText(this, "Distance jogged: " + distance, Toast.LENGTH_LONG).show();
+        UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
+        Double distance = mapHelper.getTotalDistanceBetweenMultiplePoints(points)/1000;
+        Double durationInSeconds = utilityHelper.getDateDifferenceInSeconds(startTime, endTime);
+        Double durationInMinutes = durationInSeconds/60;
+        Double speedInKmh = (distance/durationInSeconds)*3.6;
+        String title = speedInKmh < 6 ? "Walked " + distance + " km" : speedInKmh > 8 ? "Ran " + distance + " km" : "Walked " + distance + " km";
+        Toast.makeText(this, "Distance jogged: " + distance + ". Duration: " + durationInMinutes + ". Speed: " + speedInKmh + ". Title: " + title, Toast.LENGTH_LONG).show();
         DbHandler dbHandler = new DbHandler(this);
-        ///GET DISTANCE
-        //dbHandler.insertSession(null);
+        String address = points.size() > 0 ? utilityHelper.isConnectedToInternet() ? mapHelper.getAddressFromLocation(points.get(0)) : "" : "";
+        Session session = new Session(startTime, title, distance, durationInMinutes, "", address);
+        dbHandler.insertSession(session);
     }
 
     @Override

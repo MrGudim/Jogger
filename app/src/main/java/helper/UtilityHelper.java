@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by hansg_000 on 28.04.2015.
  */
@@ -26,5 +29,9 @@ _context = context;
                     }
         }
         return false;
+    }
+
+    public double getDateDifferenceInSeconds(Date startDate, Date endDate) {
+        return (double)(endDate.getTime() - startDate.getTime()) / 1000;
     }
 }
