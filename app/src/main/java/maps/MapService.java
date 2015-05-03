@@ -94,7 +94,7 @@ public class MapService extends Service implements com.google.android.gms.locati
         }
     }
 
-    ////////////LOCATION
+    //LOCATION
 
     @Override
     public void onConnected(Bundle bundle) {

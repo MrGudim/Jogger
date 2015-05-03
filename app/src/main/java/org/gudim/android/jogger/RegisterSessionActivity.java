@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import jogger.database.DbHandler;
+import maps.MapHelper;
 import maps.MapService;
 import model.Session;
 
@@ -92,7 +93,10 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         getApplicationContext().stopService(intent);
     }
 
-    private void saveSession(ArrayList<LatLng> locations, Date startTime, Date endTime) {
+    private void saveSession(ArrayList<LatLng> points, Date startTime, Date endTime) {
+        MapHelper mapHelper = new MapHelper(getApplicationContext());
+        Double distance = mapHelper.getTotalDistanceBetweenMultiplePoints(points);
+        Toast.makeText(this, "Distance jogged: " + distance, Toast.LENGTH_LONG).show();
         DbHandler dbHandler = new DbHandler(this);
         ///GET DISTANCE
         //dbHandler.insertSession(null);
