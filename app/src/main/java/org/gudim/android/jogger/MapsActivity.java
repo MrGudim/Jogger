@@ -43,11 +43,10 @@ public class MapsActivity extends MyActionBarActivity {
     protected void onResume() {
         super.onResume();
         UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
-        if (utilityHelper.isConnectedToInternet()) {
-            setUpMapIfNeeded();
-        } else {
-            Toast.makeText(getApplicationContext(), "The map could not be opened because of no internet connection.", Toast.LENGTH_LONG).show();
+        if (!utilityHelper.isConnectedToInternet()) {
+            Toast.makeText(this, "Internet connection is needed for the full experience.", Toast.LENGTH_LONG).show();
         }
+        setUpMapIfNeeded();
     }
 
     /**
@@ -76,6 +75,12 @@ public class MapsActivity extends MyActionBarActivity {
                 setUpMap();
             }
         }
+        if(mMap != null) {
+            UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
+            if (utilityHelper.isConnectedToInternet()) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            }
+        }
     }
 
     /**
@@ -87,6 +92,7 @@ public class MapsActivity extends MyActionBarActivity {
     private void setUpMap() {
         Context context = getApplicationContext();
         DbHandler dbHandler = new DbHandler(context);
+
         List<Session> sessions = dbHandler.getSessions();
         if (sessions.size() > 0) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();

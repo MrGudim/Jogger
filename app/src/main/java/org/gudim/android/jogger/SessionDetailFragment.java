@@ -2,6 +2,7 @@ package org.gudim.android.jogger;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,10 +21,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -63,23 +67,29 @@ public class SessionDetailFragment extends Fragment {
     public void onResume() {
         super.onResume();
         UtilityHelper utilityHelper = new UtilityHelper(getActivity());
-        if (utilityHelper.isConnectedToInternet()) {
-            setUpMapIfNeeded();
-        } else {
-            Toast.makeText(getActivity(), "The map could not be opened because of no internet connection.", Toast.LENGTH_LONG).show();
+        if (!utilityHelper.isConnectedToInternet()) {
+            Toast.makeText(getActivity(), "Internet connection is needed for the full experience.", Toast.LENGTH_LONG).show();
         }
+        setUpMapIfNeeded();
     }
 
     public void setUpMapIfNeeded() {
         if (mMap == null) {
-        mMap =  getMapFragment().getMap();
+            mMap = getMapFragment().getMap();
 
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
             }
         }
+        if(mMap != null) {
+            UtilityHelper utilityHelper = new UtilityHelper(getActivity());
+            if (utilityHelper.isConnectedToInternet()) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            }
+        }
     }
+
     private SupportMapFragment getMapFragment() {
         FragmentManager fm = null;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -93,20 +103,35 @@ public class SessionDetailFragment extends Fragment {
 
     public void setUpMap() {
 
-      /*  Context context = getActivity();
-        DbHandler dbHandler = new DbHandler(context);
-        MapHelper mapHelper = new MapHelper(context);
-        List<Session> sessions = dbHandler.getSessions();
-
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Session session : sessions) {
-            LatLng location = mapHelper.getLocationFromAddress(session.address);
-            if (location != null) {
-                Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(session.title).snippet("" + session.id));
-                builder.include(marker.getPosition());
-            }
 
+        if(_selectedSession.positions.size() > 1) {
+            for (int i = 0; i < _selectedSession.positions.size(); i++) {
+                if(i == 0)
+                {
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(_selectedSession.positions.get(i)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Start"));
+                }
+                if (i > 0) {
+                    Polyline polyline = mMap.addPolyline(new PolylineOptions()
+                            .add(_selectedSession.positions.get(i-1), _selectedSession.positions.get(i))
+                            .width(5)
+                            .color(Color.RED));
+                }
+                if(i == _selectedSession.positions.size() - 1)
+                {
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(_selectedSession.positions.get(i)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).title("End"));
+                }
+                builder.include(_selectedSession.positions.get(i));
+            }
         }
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                marker.showInfoWindow();
+                return true;
+            }
+        });
+
         latLngBounds = builder.build();
 
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
@@ -115,7 +140,7 @@ public class SessionDetailFragment extends Fragment {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 150));
             }
 
-        });*/
+        });
     }
 
     @Override
