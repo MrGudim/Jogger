@@ -9,7 +9,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,7 +87,7 @@ public class SessionListFragment extends ListFragment {
 
         try {
             DbHandler dbHandler = new DbHandler(getActivity());
-            if (dbHandler.getSessions().isEmpty()) {
+            /*if (dbHandler.getSessions().isEmpty()) {
                 Toast.makeText(getActivity(), "Adding example sessions since the DB is empty", Toast.LENGTH_LONG).show();
 
                 ArrayList<Session> sessions = new ArrayList<Session>();
@@ -101,7 +100,7 @@ public class SessionListFragment extends ListFragment {
                     dbHandler.insertSession(session);
                 }
             }
-
+*/
             List<Session> sessionList = new DbHandler(getActivity()).getSessions();
             ArrayList<Session> sessions = new ArrayList<Session>();
             sessions.addAll(sessionList);

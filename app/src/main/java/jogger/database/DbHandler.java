@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import android.database.Cursor;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import model.Session;
 
 import java.text.DateFormat;
@@ -41,7 +43,7 @@ public class DbHandler {
                     + SessionContract.SessionEntry.COLUMN_NAME_DURATION + ", "
                     + SessionContract.SessionEntry.COLUMN_NAME_LENGTH + ", "
                     + SessionContract.SessionEntry.COLUMN_NAME_TITLE + ", "
-                    + SessionContract.SessionEntry.COLUMN_NAME_ADDRESS
+                    + SessionContract.SessionEntry.COLUMN_NAME_POSITIONS
                     + ") VALUES ("
                     + "'" + session.imageUrl + "'"
                     + ","
@@ -53,7 +55,7 @@ public class DbHandler {
                     + ","
                     + "'" + session.title + "'"
                     + ","
-                    + "'"+ session.address + "'"
+                    + "'"+ ArrayListPositionsToString(session.positions) + "'"
                     + ")";
             db.execSQL(query);
         } catch (SQLiteException ex) {
@@ -65,6 +67,30 @@ public class DbHandler {
             db.close();
         }
         return true;
+    }
+
+    public String ArrayListPositionsToString(ArrayList<LatLng> positions)
+    {
+        String stringPositions = "";
+        for(LatLng position : positions)
+        {
+            stringPositions += position.latitude + "-" + position.longitude + ";";
+        }
+        return stringPositions;
+    }
+    public ArrayList<LatLng> StringPositionsToArrayListPositions(String stringPositions)
+    {
+        ArrayList<LatLng> positions = new ArrayList<LatLng>();
+        String[] stringPositionsParts = stringPositions.split(";");
+        for(String stringPosition : stringPositionsParts)
+        {
+            String[] split = stringPosition.split("-");
+            double lat = Double.parseDouble(split[0]);
+            double lng = Double.parseDouble(split[1]);
+
+            positions.add(new LatLng(lat,lng));
+        }
+        return positions;
     }
 
     public List<Session> getSessions() {
@@ -84,9 +110,9 @@ public class DbHandler {
                 double length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
                 double duration = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DURATION));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_IMAGEURL));
-                String address = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_ADDRESS));
-
-                Session session = new Session(date, title, length, duration, imageUrl, address);
+                String stringPositions = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_POSITIONS));
+                ArrayList<LatLng> positions = StringPositionsToArrayListPositions(stringPositions);
+                Session session = new Session(date, title, length, duration, imageUrl, positions);
                 session.id = sessionId;
 
                 sessions.add(session);
@@ -118,8 +144,9 @@ public class DbHandler {
                 double length = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_LENGTH));
                 double duration = cursor.getDouble(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_DURATION));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_IMAGEURL));
-                String address = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_ADDRESS));
-                session = new Session(date, title, length, duration, imageUrl, address);
+                String stringPositions = cursor.getString(cursor.getColumnIndex(SessionContract.SessionEntry.COLUMN_NAME_POSITIONS));
+                ArrayList<LatLng> positions = StringPositionsToArrayListPositions(stringPositions);
+                session = new Session(date, title, length, duration, imageUrl, positions);
                 session.id = sessionId;
             }
         } catch (SQLiteException ex) {

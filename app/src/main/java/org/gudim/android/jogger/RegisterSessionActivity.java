@@ -114,8 +114,8 @@ public class RegisterSessionActivity extends MyActionBarActivity {
 
             DbHandler dbHandler = new DbHandler(this);
 
-            String address = points.size() > 0 ? utilityHelper.isConnectedToInternet() ? mapHelper.getAddressFromLocation(points.get(0)) : "" : "";
-            Session session = new Session(startTime, title, distance, durationInSeconds, "", address);
+
+            Session session = new Session(startTime, title, distance, durationInSeconds, "", points);
             dbHandler.insertSession(session);
         }
         else

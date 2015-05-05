@@ -87,39 +87,33 @@ public class MapsActivity extends MyActionBarActivity {
     private void setUpMap() {
         Context context = getApplicationContext();
         DbHandler dbHandler = new DbHandler(context);
-        MapHelper mapHelper = new MapHelper(context);
         List<Session> sessions = dbHandler.getSessions();
-
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Session session : sessions) {
-            LatLng location = mapHelper.getLocationFromAddress(session.address);
-            if (location != null) {
-                Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(session.title).snippet("" + session.id));
+        if (sessions.size() > 0) {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Session session : sessions) {
+                Marker marker = mMap.addMarker(new MarkerOptions().position(session.positions.get(0)).title(session.title).snippet("" + session.id));
                 builder.include(marker.getPosition());
             }
+            latLngBounds = builder.build();
+            mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                @Override
+                public void onMapLoaded() {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 150));
+                }
 
+            });
+
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    Intent detailIntent = new Intent(getApplicationContext(), SessionDetailActivity.class);
+                    //saving marker id in snippet
+                    detailIntent.putExtra(SessionDetailFragment.ARG_ITEM_ID, Integer.parseInt(marker.getSnippet()));
+                    startActivity(detailIntent);
+                    //Dont run default behavior
+                    return true;
+                }
+            });
         }
-
-        latLngBounds = builder.build();
-
-        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 150));
-            }
-
-        });
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Intent detailIntent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-                //saving marker id in snippet
-                detailIntent.putExtra(SessionDetailFragment.ARG_ITEM_ID, Integer.parseInt(marker.getSnippet()));
-                startActivity(detailIntent);
-                //Dont run default behavior
-                return true;
-            }
-        });
     }
 }

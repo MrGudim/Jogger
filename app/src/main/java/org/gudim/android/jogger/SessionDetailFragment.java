@@ -93,7 +93,7 @@ public class SessionDetailFragment extends Fragment {
 
     public void setUpMap() {
 
-        Context context = getActivity();
+      /*  Context context = getActivity();
         DbHandler dbHandler = new DbHandler(context);
         MapHelper mapHelper = new MapHelper(context);
         List<Session> sessions = dbHandler.getSessions();
@@ -115,7 +115,7 @@ public class SessionDetailFragment extends Fragment {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 150));
             }
 
-        });
+        });*/
     }
 
     @Override

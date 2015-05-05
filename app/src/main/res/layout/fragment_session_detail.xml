@@ -38,6 +38,7 @@
         android:textSize="16dp"/>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/sessionDetailDuration"
         android:layout_height="fill_parent" android:id="@+id/detailMap"
         tools:context="org.gudim.android.jogger.SessionDetailFragment"
