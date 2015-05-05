@@ -37,21 +37,6 @@ public class MapsActivity extends MyActionBarActivity {
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.content_frame);
         View activityMapsView = getLayoutInflater().inflate(R.layout.activity_maps, null);
         frameLayout.addView(activityMapsView);
-
-        UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
-        if (utilityHelper.isConnectedToInternet()) {
-            setUpMapIfNeeded();
-        } else {
-            Toast.makeText(getApplicationContext(), "The map could not be opened because of no internet connection.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    //custom
-    @Override
-    public void onBackPressed() {
-
-        //stopService(new Intent(getBaseContext(), MapService.class));
-        super.onBackPressed();
     }
 
     @Override

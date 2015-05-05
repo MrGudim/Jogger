@@ -6,34 +6,40 @@
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/sessionDetailTitle"
-        android:textSize="30dp"
-        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:textIsSelectable="false"
+        android:textSize="30dp"
+
+        android:textStyle="bold"
         tools:context="org.gudim.android.jogger.SessionDetailFragment" />
 
     <TextView
-        android:textSize="16dp"
         android:id="@+id/sessionDetailDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sessionDetailTitle" />
+        android:layout_below="@+id/sessionDetailTitle"
+        android:textSize="16dp" />
 
     <TextView
-        android:textSize="16dp"
         android:id="@+id/sessionDetailLength"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/sessionDetailDate" />
+        android:layout_below="@+id/sessionDetailDate"
+        android:textSize="16dp" />
 
     <TextView
-        android:textSize="16dp"
         android:id="@+id/sessionDetailDuration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/sessionDetailLength" />
+        android:layout_below="@+id/sessionDetailLength"
+        android:textSize="16dp"/>
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_below="@+id/sessionDetailDuration"
+        android:layout_height="fill_parent" android:id="@+id/detailMap"
+        tools:context="org.gudim.android.jogger.SessionDetailFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
 </RelativeLayout>

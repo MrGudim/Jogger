@@ -97,21 +97,35 @@ public class RegisterSessionActivity extends MyActionBarActivity {
     private void saveSession(ArrayList<LatLng> points, Date startTime, Date endTime) {
         MapHelper mapHelper = new MapHelper(getApplicationContext());
         UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
-        Double distance = mapHelper.getTotalDistanceBetweenMultiplePoints(points)/1000;
-        Double durationInSeconds = utilityHelper.getDateDifferenceInSeconds(startTime, endTime);
-        Double durationInMinutes = durationInSeconds/60;
-        Double speedInKmh = (distance/durationInSeconds)*3.6;
-        String title = speedInKmh < 6 ? "Walked " + distance + " km" : speedInKmh > 8 ? "Ran " + distance + " km" : "Walked " + distance + " km";
-        Toast.makeText(this, "Distance jogged: " + distance + ". Duration: " + durationInMinutes + ". Speed: " + speedInKmh + ". Title: " + title, Toast.LENGTH_LONG).show();
-        DbHandler dbHandler = new DbHandler(this);
-        String address = points.size() > 0 ? utilityHelper.isConnectedToInternet() ? mapHelper.getAddressFromLocation(points.get(0)) : "" : "";
-        Session session = new Session(startTime, title, distance, durationInMinutes, "", address);
-        dbHandler.insertSession(session);
+        if(points.size() > 0) {
+            Double distance = mapHelper.getTotalDistanceBetweenMultiplePoints(points) / 1000;
+
+            Double durationInSeconds = utilityHelper.getDateDifferenceInSeconds(startTime, endTime);
+            Double speedInKmh = (distance / durationInSeconds) * 3.6;
+
+            String title;
+            if (speedInKmh < 6) {
+                title = "Walked " + String.format("%.1f", distance) + " km";
+            } else if (speedInKmh < 8 && speedInKmh >= 6) {
+                title = "Jogged " + String.format("%.1f", distance) + " km";
+            } else{
+                title = "Ran " + String.format("%.1f", distance) + " km";
+            }
+
+            DbHandler dbHandler = new DbHandler(this);
+
+            String address = points.size() > 0 ? utilityHelper.isConnectedToInternet() ? mapHelper.getAddressFromLocation(points.get(0)) : "" : "";
+            Session session = new Session(startTime, title, distance, durationInSeconds, "", address);
+            dbHandler.insertSession(session);
+        }
+        else
+        {
+            Toast.makeText(this, "The session was not added", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
     }
 
