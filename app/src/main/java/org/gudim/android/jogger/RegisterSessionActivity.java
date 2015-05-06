@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class RegisterSessionActivity extends MyActionBarActivity {
 
         Button registerSessionButton = (Button) findViewById(R.id.registerSessionButton);
         if (MapService.IsStarted) {
-            registerSessionButton.setText("Stop");
+            registerSessionButton.setText("Save");
             registerSessionButton.setBackgroundColor(Color.parseColor("#FF0000"));
         } else {
             registerSessionButton.setText("Start");
@@ -65,7 +67,7 @@ public class RegisterSessionActivity extends MyActionBarActivity {
     }
 
     private void startMapService() {
-        ((Button) findViewById(R.id.registerSessionButton)).setText("Stop");
+        ((Button) findViewById(R.id.registerSessionButton)).setText("Save");
         ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#FF0000"));
 
         Thread thread = new Thread() {
@@ -85,7 +87,6 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         Date endTime = new Date();
         if (locations != null && locations.size() > 0) {
             saveSession(locations, startTime, endTime);
-            Toast.makeText(this, "Location count : " + locations.size(), Toast.LENGTH_SHORT).show();
         }
         ((Button) findViewById(R.id.registerSessionButton)).setText("Start");
         ((Button) findViewById(R.id.registerSessionButton)).setBackgroundColor(Color.parseColor("#00FF55"));
@@ -114,9 +115,9 @@ public class RegisterSessionActivity extends MyActionBarActivity {
 
             DbHandler dbHandler = new DbHandler(this);
 
-
             Session session = new Session(startTime, title, distance, durationInSeconds, "", points);
             dbHandler.insertSession(session);
+            Toast.makeText(this, "The session was added", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -132,6 +133,11 @@ public class RegisterSessionActivity extends MyActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        UtilityHelper utilityHelper = new UtilityHelper(this);
+        if(!_mapService.IsStarted && !((LocationManager)getSystemService(Context.LOCATION_SERVICE)).isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            utilityHelper.displayGPSAlert();
+        }
         if (_mapService.IsStarted) {
             Thread thread = new Thread() {
                 public void run() {

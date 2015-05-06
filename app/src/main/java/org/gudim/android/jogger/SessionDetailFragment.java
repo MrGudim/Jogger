@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -35,6 +37,7 @@ import java.util.List;
 import helper.UtilityHelper;
 import jogger.database.DbHandler;
 import maps.MapHelper;
+import maps.MapService;
 import model.Session;
 
 public class SessionDetailFragment extends Fragment {
@@ -63,6 +66,7 @@ public class SessionDetailFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -79,10 +83,16 @@ public class SessionDetailFragment extends Fragment {
 
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap();
+                Thread thread = new Thread() {
+                    public void run() {
+                        setUpMap();
+                    }
+                };
+                thread.run();
+
             }
         }
-        if(mMap != null) {
+        if (mMap != null) {
             UtilityHelper utilityHelper = new UtilityHelper(getActivity());
             if (utilityHelper.isConnectedToInternet()) {
                 mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -105,42 +115,41 @@ public class SessionDetailFragment extends Fragment {
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        if(_selectedSession.positions.size() > 1) {
+        if (_selectedSession.positions.size() >= 1) {
             for (int i = 0; i < _selectedSession.positions.size(); i++) {
-                if(i == 0)
-                {
+                if (i == 0) {
                     Marker marker = mMap.addMarker(new MarkerOptions().position(_selectedSession.positions.get(i)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Start"));
                 }
                 if (i > 0) {
                     Polyline polyline = mMap.addPolyline(new PolylineOptions()
-                            .add(_selectedSession.positions.get(i-1), _selectedSession.positions.get(i))
+                            .add(_selectedSession.positions.get(i - 1), _selectedSession.positions.get(i))
                             .width(5)
                             .color(Color.RED));
                 }
-                if(i == _selectedSession.positions.size() - 1)
-                {
-                        Marker marker = mMap.addMarker(new MarkerOptions().position(_selectedSession.positions.get(i)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).title("End"));
+                if (i == _selectedSession.positions.size() - 1) {
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(_selectedSession.positions.get(i)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).title("End"));
                 }
                 builder.include(_selectedSession.positions.get(i));
             }
+
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    marker.showInfoWindow();
+                    return true;
+                }
+            });
+
+            latLngBounds = builder.build();
+
+            mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                @Override
+                public void onMapLoaded() {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 150));
+                }
+
+            });
         }
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                marker.showInfoWindow();
-                return true;
-            }
-        });
-
-        latLngBounds = builder.build();
-
-        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 150));
-            }
-
-        });
     }
 
     @Override
@@ -162,5 +171,14 @@ public class SessionDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        if(mMap != null)
+        {
+            mMap = null;
+        }
     }
 }

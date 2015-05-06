@@ -1,11 +1,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
     tools:context="org.gudim.android.jogger.CalculatorActivity">
 
-    <TextView android:text="@string/hello_world"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/textViewBMICalculatorTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="BMI Calculator"
+        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
 
+    <TextView
+        android:id="@+id/textViewLabelHeight"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewBMICalculatorTitle"
+        android:text="Height in centimeters"
+        android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+
+    <EditText
+        android:id="@+id/editTextHeight"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewLabelHeight"
+        android:ems="10"
+        android:inputType="numberDecimal"></EditText>
+
+    <TextView
+        android:id="@+id/textViewLabelWeight"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextHeight"
+        android:text="Weight in kilos"
+        android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewLabelWeight"
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/buttonCalculateBMI"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextWeight"
+        android:text="Calculate BMI" />
+
+    <TextView
+        android:id="@+id/textViewBMI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonCalculateBMI"
+        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
 </RelativeLayout>

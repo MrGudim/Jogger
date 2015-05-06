@@ -8,7 +8,37 @@
 
     <Button
         android:id="@+id/registerSessionButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:textSize="40dp"
+
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
         />
+<TextView
+    android:id="@+id/registerSessionTitle"
+    android:layout_below="@+id/registerSessionButton"
+    android:text="Log your jogs!"
+    android:textSize="30dp"
+    android:layout_marginTop="50dp"
+    android:layout_marginBottom="10dp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/registerSessionDescription"
+        android:layout_below="@+id/registerSessionTitle"
+        android:text="All you have to do is to click the big green button to start your session."
+        android:textSize="16dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@android:color/black"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/registerSessionDescription2"
+        android:layout_below="@+id/registerSessionDescription"
+        android:text="When you're done jogging you can click the button again to save it."
+        android:textSize="16dp"
+        android:textColor="@android:color/black"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+
 </RelativeLayout>

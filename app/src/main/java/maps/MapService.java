@@ -126,6 +126,7 @@ public class MapService extends Service implements com.google.android.gms.locati
                         .setSmallIcon(R.drawable.ic_stat_social_whatshot)
                         .setContentTitle("Jogger")
                         .setContentText("Jogger is tracking you!")
+                        .setOngoing(true)
                 .setContentIntent(pendingIntent);
 
 
