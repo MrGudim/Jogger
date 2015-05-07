@@ -99,10 +99,11 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         MapHelper mapHelper = new MapHelper(getApplicationContext());
         UtilityHelper utilityHelper = new UtilityHelper(getApplicationContext());
         if(points.size() > 0) {
-            Double distance = mapHelper.getTotalDistanceBetweenMultiplePoints(points) / 1000;
+            Double distanceInMeters = mapHelper.getTotalDistanceBetweenMultiplePoints(points);
+            Double distance = distanceInMeters/1000;
 
             Double durationInSeconds = utilityHelper.getDateDifferenceInSeconds(startTime, endTime);
-            Double speedInKmh = (distance / durationInSeconds) * 3.6;
+            Double speedInKmh = (distanceInMeters / durationInSeconds) * 3.6;
 
             String title;
             if (speedInKmh < 6) {
@@ -121,7 +122,7 @@ public class RegisterSessionActivity extends MyActionBarActivity {
         }
         else
         {
-            Toast.makeText(this, "The session was not added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "The session was not added: You stopped the session too soon: No positions were fetched.", Toast.LENGTH_SHORT).show();
         }
     }
 
